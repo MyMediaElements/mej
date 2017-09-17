@@ -10614,3 +10614,42 @@ _mejs2.default.Utils.calculateTimeFormat = calculateTimeFormat;
 _mejs2.default.Utils.convertSMPTEtoSeconds = convertSMPTEtoSeconds;
 
 },{"6":6}]},{},[31,5,4,14,23,20,17,18,19,21,22,24,25,26,15,16,8,9,10,11,12,13]);
+ $(function() {
+    $("audio").mediaelementplayer({
+        success: function(a, b, c) {
+            $(".play-buttons").on("click", function() {
+                var b = $(this);
+                if (b.hasClass("active")) return void a.pause();
+                $(".play-buttons").removeClass("active");
+                var c = b.attr("data-url");
+                a.setSrc(c), b.addClass("active"), a.play()
+            }), $("#audioPlayer_html5").bind("pause", function() {
+                $(".play-buttons").removeClass("active")
+            }), $("#audioPlayer_html5").bind("play", function() {
+                var a = $(this).attr("src");
+                $('a[data-url="' + a + '"]').addClass("active")
+            })
+        }
+    }), $(".widget-header").on("click", function() {
+        var a = $(this),
+            b = a.find(".nav-toggle-bars"),
+            c = a.parent(".widget").find(".widget-body");
+        b.is(":visible") && (c.is(":visible") ? c.hide(300) : ($(".widget-body").hide(300), c.show(300)))
+    }), $(window).on("click", function(a) {
+        var b = $("#search-toggle");
+        b.is(":visible") && $(".primary-search").is(":visible") && ($(a.target).closest(".primary-header").length || b.click())
+    }), $("#search-toggle").on("click", function() {
+        $(".primary-search").toggle(10, function() {
+            $(this).find("input").focus()
+        })
+    }), $(".window-share").on("click", function() {
+        var a = $(this).attr("data-url");
+        return newwindow = window.open(a, "name", "height=400,width=800"), window.focus && newwindow.focus(), !1
+    }), $("#search_submit").on("click", function(a) {
+        a.preventDefault();
+        var b = $("#search_form"),
+            c = b.find("input");
+        if (!c.val()) return void c.attr("placeholder", "Search term required*");
+        b.submit()
+    })
+});
